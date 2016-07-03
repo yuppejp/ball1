@@ -1,0 +1,70 @@
+﻿<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="utf-8">
+    <title>Sample</title>
+
+    <style>
+        html,
+        body {
+            height: 100%;
+        }
+        
+        #pad {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            background: #ddd;
+        }
+        
+        #pad img {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="pad">
+        <img id="ball" src="circle.png" width="50" height="50" style="left: 600px; top: 400px;">
+    </div>
+
+    <script>
+    var pad = document.getElementById('pad');
+    var ball = document.getElementById('ball');
+
+    var cxPad = pad.offsetWidth;
+    var cyPad = pad.offsetHeight;
+
+    var cxBall = ball.offsetWidth;
+    var cyBall = ball.offsetHeight;
+
+    var xBall = (cxPad / 2) - (cxBall / 2);
+    var yBall = (cyPad / 2) - (cyBall / 2);
+
+    window.addEventListener("deviceorientation", handleOrientation);
+
+    function handleOrientation(event) {
+        var x = event.beta;
+        var y = -event.gamma;
+
+        (xBall > cxPad - cxBall) ? xBall = cxPad - cxBall : xBall += x;
+        (xBall < 0) ? xBall = 0 : xBall += x;
+        
+        (yBall > cyPad - cyBall) ? yBall = cyPad - cyBall : yBall += y;
+        (yBall < 0) ? yBall = 0 : yBall += y;
+
+        moveBall(xBall, yBall);
+    }
+
+    function moveBall(x, y) {
+        // $("#pad img").css('left', x + 'px').css('top', y + 'px');
+        ball.style.left = x + 'px';
+        ball.style.top = y + 'px';
+    }
+    </script>
+</body>
+
+</html>
